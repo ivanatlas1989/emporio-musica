@@ -28,7 +28,7 @@ if not chave:
 
 cliente = genai.Client(
     api_key=chave,
-    http_options=types.HttpOptions(timeout=30000)
+    http_options=types.HttpOptions(timeout=60000)
 )
 
 
@@ -288,6 +288,21 @@ configuracao = types.GenerateContentConfig(
 
     Para perguntas de continuidade, considere o histórico
     da conversa.
+
+    LIMITAÇÕES DO ATENDIMENTO:
+
+    Você pode consultar informações e orientar o cliente,
+    mas não pode executar operações no sistema.
+
+    Nunca prometa registrar devoluções, emitir reembolsos,
+    cancelar pedidos ou agendar coletas.
+
+    Quando o cliente solicitar essas ações, explique
+    que será necessário entrar em contato com o atendimento
+    responsável da loja.
+
+    Nunca afirme que uma ação foi realizada sem que
+    uma ferramenta tenha confirmado sua execução.
 
     POLITICAS:
     Use consultar_politica para horários,
