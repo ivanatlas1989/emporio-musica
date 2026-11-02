@@ -136,11 +136,13 @@ A memória utilizada é de sessão, não constituindo armazenamento persistente 
 
 Fui responsável pela concepção da solução, definição da arquitetura, organização dos módulos, planejamento das consultas, desenho do fluxo de atendimento e estabelecimento das regras de comportamento e autorização.
 
-Participei das decisões sobre tratamento de dados, recuperação semântica, memória de conversa, uso de ferramentas e validação das respostas.
+Participei das decisões sobre tratamento de dados, recuperação semântica (RAG), memória de conversa, uso de ferramentas e validação das respostas.
 
-Para a implementação e depuração do código Python, utilizei inteligência artificial como ferramenta de assistência, especialmente na escrita de funções, identificação de erros e refinamento das implementações.
+Para auxiliar a implementação, utilizei o ChatGPT (OpenAI) como assistente de desenvolvimento, principalmente na escrita e revisão de funções Python, depuração de erros, integração com a API Gemini e construção da interface Streamlit.
 
-O processo foi conduzido de maneira interativa, com decisões sobre o comportamento esperado, execução de testes e ajustes conforme os resultados observados.
+Meu fluxo de trabalho foi interativo: defini os requisitos e comportamentos esperados, discuti alternativas de implementação com o assistente, executei o código, analisei os resultados e solicitei ajustes quando necessário.
+
+As decisões sobre arquitetura, regras de negócio, validação de acesso aos pedidos e comportamento do agente foram orientadas pelos objetivos do desafio. A ferramenta de IA foi utilizada como apoio à implementação, à investigação de problemas e ao aprendizado durante o desenvolvimento.
 
 O projeto começou a ser desenvolvido localmente e foi posteriormente integrado ao GitHub. Por esse motivo, o histórico de commits não representa integralmente todas as etapas iniciais de desenvolvimento.
 
@@ -174,3 +176,96 @@ Após essa alteração, o agente funcionou perfeitamente nos testes realizados, 
 
 Link para acessar o agente:
 https://emporio-musica-6bpwrdwas5yn93husv5mar.streamlit.app/
+
+## 13. Como executar o projeto localmente
+
+### Pré-Requisitos
+
+Python 3.11 ou superior.
+
+Chave de API do Google Gemini.
+
+Conexão com a internet.
+
+### Instalação
+
+Clone o repositório e acesse a pasta do projeto:
+
+```bash
+git clone https://github.com/ivanatlas1989/emporio-musica.git
+cd emporio-musica
+```
+
+Instale as dependências:
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+### Configuração de API
+
+Crie um arquivo .env na raiz do projeto com o seguinte conteúdo:
+
+```env
+GEMINI_API_KEY=SUA_CHAVE_AQUI
+```
+
+A chave pode ser obtida no Google AI Studio. O arquivo .env não deve ser enviado ao GitHub.
+
+### Executar a interface web
+
+```bash
+python -m streamlit run app.py
+```
+
+O aplicativo estará disponível no endereço local informado pelo Streamlit, normalmente http://localhost:8501.
+
+### Executar pelo terminal
+
+```bash
+python gemini.py
+```
+
+### Demonstração online
+
+O protótipo também está disponível para testes diretamente pelo navegador:
+
+https://emporio-musica-6bpwrdwas5yn93husv5mar.streamlit.app/
+
+### Autenticação simulada
+
+Para demonstrar o controle de acesso aos dados dos clientes, o protótipo utiliza uma sessão autenticada simulada com o cliente de ID 2.
+
+Ao consultar um pedido, o sistema verifica programaticamente se o pedido pertence ao cliente autenticado.
+
+Pedido pertencente ao cliente autenticado: a consulta é autorizada.
+
+Pedido pertencente a outro cliente: o acesso é negado, independentemente do número do pedido.
+
+Pedido inexistente: o sistema informa que não foi possível localizar o pedido.
+
+Como exemplo, o pedido 8 é autorizado, pois pertence ao cliente autenticado de ID 2. Já o pedido 2 é bloqueado por pertencer a outro cliente. A mesma regra de autorização é aplicada a todos os pedidos.
+
+Essa validação é realizada no backend Python, não dependendo exclusivamente das instruções do modelo de IA.
+
+A autenticação é simulada para fins de demonstração e não substitui um sistema real de login.
+
+## 14. Melhorias futuras
+
+Com mais tempo para desenvolver o projeto, priorizaria as seguintes melhorias:
+
+1. **Autenticação real:** substituir a sessão simulada por um sistema de login, garantindo que cada cliente acesse exclusivamente suas informações.
+
+2. **Integração com sistemas reais:** substituir os arquivos CSV por consultas a bancos de dados ou APIs de produtos, estoque, pedidos e clientes, permitindo trabalhar com informações atualizadas.
+
+3. **Testes automatizados:** implementar testes para validar consultas, cálculos, aplicação de políticas e bloqueio de acesso a pedidos de terceiros.
+
+4. **Otimização do RAG:** armazenar os embeddings do manual para evitar recalculá-los a cada inicialização e melhorar o desempenho.
+
+5. **Tratamento de indisponibilidade da API:** implementar tentativas controladas, tratamento de erros temporários e mecanismos de contingência para situações como HTTP 503.
+
+6. **Monitoramento:** acompanhar latência, consumo de tokens, custos da API e qualidade das respostas.
+
+7. **Avaliação sistemática do agente:** criar um conjunto de perguntas e respostas esperadas para medir a precisão das consultas, a recuperação das políticas e a segurança do atendimento.
+
+Essas melhorias permitiriam evoluir o protótipo para uma aplicação mais robusta, escalável e adequada a um ambiente de produção.
