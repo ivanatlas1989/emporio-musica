@@ -23,6 +23,13 @@ load_dotenv()
 chave = os.getenv("GEMINI_API_KEY")
 
 if not chave:
+    try:
+        import streamlit as st
+        chave = st.secrets.get("GEMINI_API_KEY")
+    except (FileNotFoundError, KeyError):
+        pass
+
+if not chave:
     raise ValueError("Chave de API não encontrada!")
 
 cliente = genai.Client(
