@@ -13,7 +13,7 @@ from google.genai import types
 from ler_politicas import chunks
 from consultar_produtos import consultar_produto
 from consultar_pedidos import consultar_pedido_autorizado
-
+from consultar_promocoes import consultar_promocoes
 
 # =====================================
 # 1. CONEXAO COM GEMINI
@@ -313,7 +313,8 @@ configuracao = types.GenerateContentConfig(
     tools=[
     consultar_politica,
     consultar_meu_pedido,
-    consultar_produto
+    consultar_produto,
+    consultar_promocoes
 ]
 )
 
