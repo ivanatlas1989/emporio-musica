@@ -1,4 +1,3 @@
-
 import os
 import re
 import math
@@ -339,7 +338,7 @@ configuracao = types.GenerateContentConfig(
 # =====================================
 
 chat = cliente.chats.create(
-    model="gemini-3.1-flash-lite",
+   model="gemini-3.6-flash",
     config=configuracao
 )
 
@@ -348,27 +347,27 @@ chat = cliente.chats.create(
 # 8. ATENDIMENTO
 # =====================================
 
-print("\nEmpório da Música - Atendimento virtual")
-print("Digite 'sair' para encerrar.")
+if __name__ == "__main__":
+    print("\nEmpório da Música - Atendimento virtual")
+    print("Digite 'sair' para encerrar.")
 
-while True:
-    pergunta = input("\nVocê: ").strip()
+    while True:
+        pergunta = input("\nVocê: ").strip()
 
-    if pergunta.lower() == "sair":
-        break
+        if pergunta.lower() == "sair":
+            break
 
-    if not pergunta:
-        print("Digite uma mensagem.")
-        continue
+        if not pergunta:
+            print("Digite uma mensagem.")
+            continue
 
-    try:
-        resposta = chat.send_message(pergunta)
+        try:
+            resposta = chat.send_message(pergunta)
+            print("\nAtendente:", resposta.text)
 
-        print("\nAtendente:", resposta.text)
-
-    except Exception as erro:
-        print("\n[ERRO REAL]:", erro)
-        print(
-            "\nAtendente: Não consegui concluir a consulta "
-            "agora. Por favor, tente novamente."
-        )
+        except Exception as erro:
+            print("\n[ERRO REAL]:", erro)
+            print(
+                "\nAtendente: Não consegui concluir a consulta "
+                "agora. Por favor, tente novamente."
+            )
