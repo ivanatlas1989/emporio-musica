@@ -199,7 +199,7 @@ def precisa_consultar_catalogo(pergunta):
 
 def preco_numerico(produto):
     return float(
-        str(produto["preco"]).replace(",", ".")
+        str(produto["price_brl"])
     )
 
 
