@@ -273,26 +273,21 @@ configuracao = types.GenerateContentConfig(
     Responda em português brasileiro, com cordialidade.
 
     REGRAS DE PRODUTOS:
-    O Python consulta o catálogo antes de enviar
-    informações comerciais para você.
+    REGRAS DE PRODUTOS:
 
-    Quando receber um resultado do catálogo,
-    use exclusivamente os dados recebidos.
+    Para responder sobre produtos, preços ou disponibilidade,
+    use a ferramenta consultar_produto.
 
-    Nunca invente produtos, preços ou quantidades.
-    Nunca afirme que consultou o catálogo sem evidência.
-    Nunca simule erros técnicos.
-    Nunca invente previsão de reposição.
-    Nunca apresente textos como [Lista de produtos].
-    Para consultar pedidos, use consultar_meu_pedido.
-    Nunca revele dados de pedidos sem autorização.
-    Se a ferramenta negar acesso, informe isso ao cliente.
+    Interprete a intenção do cliente e escolha os parâmetros
+    adequados para a consulta.
 
-    Se o resultado estiver vazio, informe que
-    nenhum produto corresponde à busca.
+    Use somente os dados realmente retornados pelo catálogo.
+    Nunca invente produtos, preços ou estoque.
 
-    Lembre-se do instrumento mencionado anteriormente
-    quando o cliente fizer perguntas de continuidade.
+    Quando não houver resultados, informe isso ao cliente.
+
+    Para perguntas de continuidade, considere o histórico
+    da conversa.
 
     POLITICAS:
     Use consultar_politica para horários,
@@ -315,7 +310,11 @@ configuracao = types.GenerateContentConfig(
 
     Seja claro, objetivo e natural.
     """,
-    tools=[consultar_politica, consultar_meu_pedido]
+    tools=[
+    consultar_politica,
+    consultar_meu_pedido,
+    consultar_produto
+]
 )
 
 
@@ -347,42 +346,9 @@ while True:
         continue
 
     try:
-        if precisa_consultar_catalogo(pergunta):
+        resposta = chat.send_message(pergunta)
 
-            resultado_catalogo = (
-                consultar_catalogo_obrigatoriamente(pergunta)
-            )
-
-            # O Python ja fez a consulta real.
-            # O Gemini recebe os dados consultados.
-
-            mensagem = (
-                f"Mensagem original do cliente: {pergunta}\n\n"
-                "Resultado REAL da consulta ao catálogo CSV:\n"
-                f"{json.dumps(resultado_catalogo, ensure_ascii=False)}\n\n"
-                "Responda somente com os dados disponíveis. "
-                "Não invente produtos, preços ou estoque."
-            )
-
-            resposta = chat.send_message(mensagem)
-
-            # Impede a apresentação de produtos inventados
-            # quando a busca retornou zero resultados.
-
-            if not resultado_catalogo.get("produtos"):
-                resposta_final = (
-                    "Não encontrei produtos que atendam "
-                    "aos critérios dessa busca no catálogo. "
-                    "Podemos tentar outro modelo ou valor."
-                )
-            else:
-                resposta_final = resposta.text
-
-        else:
-            resposta = chat.send_message(pergunta)
-            resposta_final = resposta.text
-
-        print("\nAtendente:", resposta_final)
+        print("\nAtendente:", resposta.text)
 
     except Exception as erro:
         print("\n[ERRO REAL]:", erro)
