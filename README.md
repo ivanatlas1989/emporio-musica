@@ -166,3 +166,11 @@ A solução combina recuperação estruturada de dados, busca semântica, instru
 O projeto também foi uma oportunidade de aplicar conceitos de IA generativa a um cenário de negócio, enfrentando questões práticas de arquitetura, confiabilidade, privacidade e experiência do usuário.
 
 O resultado é um protótipo funcional que demonstra uma abordagem para automatizar atendimentos recorrentes, preservando limites claros para consultas sensíveis e operações que exigem intervenção humana.
+Como complemento à entrega do desafio técnico, disponibilizei uma versão online do agente de atendimento do Empório da Música, permitindo que a equipe avaliadora interaja diretamente com a solução e teste suas funcionalidades.
+
+Durante os testes, a modalidade gratuita da API do Google Gemini apresentou instabilidades frequentes, principalmente erros http503. Para resolver, optei por utilizar o modelo Gemini 3.6 Flash, com créditos habilitados na API.
+
+Após essa alteração, o agente funcionou perfeitamente nos testes realizados, incluindo consultas ao catálogo, promoções, políticas da loja e pedidos, com validação de autorização de acesso.
+
+Link para acessar o agente:
+https://emporio-musica-6bpwrdwas5yn93husv5mar.streamlit.app/
